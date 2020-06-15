@@ -1,0 +1,101 @@
+﻿@model NorthwindMVC.Website.Models.Base.IPaginatedList<Northwind.Entities.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by text: <input type="text" name="SearchParam" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a class="btn btn-primary" asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CompanySortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    @Html.DisplayNameFor(model => model[0].CompanyName)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    @Html.DisplayNameFor(model => model[0].ContactName)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ContactTitle)
+            </th>
+            <th style="word-wrap: break-word; max-width: 100px;">
+                @Html.DisplayNameFor(model => model[0].HomePage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.SupplierID">
+                        @Html.DisplayFor(modelItem => item.ContactName)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactTitle)
+                </td>
+                <td style="word-wrap: break-word; max-width: 100px;">
+                    @Html.DisplayFor(modelItem => item.HomePage)
+                </td>
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    <td>
+
+                        <a asp-action="Edit" asp-route-id="@item.SupplierID">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.SupplierID">Delete</a>
+
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<div class="container" style="display: flex;">
+    <div style="width: 50%;">
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-primary @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-primary @nextDisabled">
+            Next
+        </a>
+    </div>
+    <div style="flex-grow: 1; text-align:right;">
+        Page @Model.PageIndex / @Model.TotalPages
+    </div>
+</div>

@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Northwind.Entities
 {
     public class Supplier
     {
         public int SupplierID { get; set; }
+        [DisplayName("Company Name")]
         public string CompanyName { get; set; }
+        [DisplayName("Contact Name")]
         public string ContactName { get; set; }
+        [DisplayName("Contact Title")]
         public string ContactTitle { get; set; }
         public string Address { get; set; }
         public string City { get; set; }

@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using NorthwindMVC.Website.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
+using System;
 
 namespace NorthwindMVC.Website
 {
@@ -32,6 +28,10 @@ namespace NorthwindMVC.Website
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Northwind.db");
+            services.AddDbContext<DAL.NorthwindDAL>(options => options.UseSqlite($"Data Source={databasePath}"));
+
             services.AddControllersWithViews();
            services.AddRazorPages();
         }

@@ -3,7 +3,7 @@ using Northwind.Entities;
 
 namespace NorthwindMVC.DAL
 {
-    public class Northwind : DbContext
+    public class NorthwindDAL : DbContext
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -13,7 +13,7 @@ namespace NorthwindMVC.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<Shipper> Shippers { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public Northwind(DbContextOptions<Northwind> options) : base(options) { }
+        public NorthwindDAL(DbContextOptions<NorthwindDAL> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
