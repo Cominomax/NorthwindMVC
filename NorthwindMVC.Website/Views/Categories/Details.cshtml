@@ -1,0 +1,28 @@
+﻿@model Northwind.Entities.Category
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Html.DisplayFor(model => model.CategoryName)</h1>
+<h4>@Html.DisplayFor(model => model.Description)</h4>
+
+@foreach (var item in @Model.Products)
+{
+    <li>
+        <a asp-controller="Product"
+           asp-action="ProductDetail"
+           asp-route-id="@item.ProductID">
+            @item.ProductName costs
+            @item.UnitPrice.Value.ToString("C")
+        </a>
+    </li>
+}
+
+<div>
+    @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.CategoryID">Edit</a>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

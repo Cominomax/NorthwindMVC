@@ -1,0 +1,37 @@
+﻿@model List<Northwind.Entities.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Browse by Category:</h1>
+
+@if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<div class="row">
+    @for (int c = 0; c < Model.Count; c++)
+    {
+        <div class="card column">
+            <a asp-action="Details" asp-route-id="@Model[c].CategoryID">
+                <img class="card-img-top" src="~/images/category@(Model[c].CategoryID).jpeg" alt="Card image">
+            </a>
+            <div class="card-body">
+                <h4 class="card-title"> @Html.DisplayFor(modelItem => Model[c].CategoryName)</h4>
+                <p class="card-text">@Html.DisplayFor(item => Model[c].Description)</p>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model[c].CategoryID">Details</a>
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model[c].CategoryID">Edit</a>
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    <a class="btn btn-primary" asp-action="Delete" asp-route-id="@Model[c].CategoryID">Delete</a>
+                }
+            </div>
+        </div>
+    }
+</div>
