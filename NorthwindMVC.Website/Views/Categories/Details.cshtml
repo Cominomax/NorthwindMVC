@@ -1,24 +1,74 @@
 ﻿@model Northwind.Entities.Category
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"{@Model.CategoryName} Details";
+    string currentItem = "";
+    int products_per_slide = 4;
 }
 
 <h1>@Html.DisplayFor(model => model.CategoryName)</h1>
-<h4>@Html.DisplayFor(model => model.Description)</h4>
+<h2>@Html.DisplayFor(model => model.Description)</h2>
 
-@foreach (var item in @Model.Products)
-{
-    <li>
-        <a asp-controller="Product"
-           asp-action="ProductDetail"
-           asp-route-id="@item.ProductID">
-            @item.ProductName costs
-            @item.UnitPrice.Value.ToString("C")
+<div>
+    <!--Carousel Wrapper-->
+    <div id="productcarousel" class="carousel slide" data-ride="carousel" data-interval="5000" data-keyboard="true">
+
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+
+            @for (int c = 0; c < Math.Ceiling((decimal)Model.Products.Count / (decimal)products_per_slide); c++)
+            {
+                if (c == 0)
+                {
+                    currentItem = "active";
+                }
+                else
+                {
+                    currentItem = "";
+                }
+                <li data-target="#productcarousel" data-slide-to="@c" class="blue @currentItem"></li>
+            }
+        </ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+        <div class="carousel-inner row w-100 mx-auto" role="listbox">
+
+            @for (int i = 0; i < @Model.Products.Count;)
+            {
+                if (i == 0)
+                {
+                    currentItem = "active";
+                }
+                else
+                {
+                    currentItem = "";
+                }
+                <div class="carousel-item @currentItem">
+                    <div class="row">
+                        @for (int j = 0; j < products_per_slide && i < @Model.Products.Count; j++, i++)
+                        {
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                @await Component.InvokeAsync("BriefProductCard", new { @Model.Products[i].ProductID })
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#productcarousel"
+           role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"
+                  aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
         </a>
-    </li>
-}
-
+        <a class="carousel-control-next" href="#productcarousel"
+           role="button" data-slide="next">
+            <span class="carousel-control-next-icon"
+                  aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
 <div>
     @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
     {
