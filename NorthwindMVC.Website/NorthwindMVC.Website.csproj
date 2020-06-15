@@ -32,6 +32,10 @@
     <ProjectReference Include="..\NorthwindMVC.DAL\NorthwindMVC.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy $(ProjectDir)..\Northwind.db $(ProjectDir)$(OutDir)" />
   </Target>

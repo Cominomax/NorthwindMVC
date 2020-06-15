@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NorthwindMVC.DAL;
 using NorthwindMVC.Website.Models;
 
 namespace NorthwindMVC.Website.Controllers
@@ -12,15 +14,22 @@ namespace NorthwindMVC.Website.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly NorthwindDAL _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, NorthwindDAL context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var homeViewModel = new HomepageViewModel
+            {
+                Categories = await _context.Categories.ToListAsync(),
+                Products = await _context.Products.ToListAsync()
+            };
+            return View(homeViewModel);
         }
 
         public IActionResult Privacy()
