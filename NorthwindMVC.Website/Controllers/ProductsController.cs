@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,14 @@ namespace NorthwindMVC.Website.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var northwindDAL = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            var northwindDAL = _context.Products
+               .Include(p => p.Category)
+               .Include(p => p.Supplier);
+         
+            if (!User.IsInRole("Administrator"))
+            {
+                return View(await northwindDAL.Where(p => !p.Discontinued && p.UnitsInStock > 0).ToListAsync());
+            }
             return View(await northwindDAL.ToListAsync());
         }
 
@@ -47,6 +55,7 @@ namespace NorthwindMVC.Website.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
@@ -59,6 +68,7 @@ namespace NorthwindMVC.Website.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Product product)
         {
             if (ModelState.IsValid)
@@ -73,6 +83,7 @@ namespace NorthwindMVC.Website.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +106,7 @@ namespace NorthwindMVC.Website.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Product product)
         {
             if (id != product.ProductID)
@@ -128,6 +140,7 @@ namespace NorthwindMVC.Website.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +163,7 @@ namespace NorthwindMVC.Website.Controllers
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);

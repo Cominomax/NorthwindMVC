@@ -32,10 +32,6 @@
     <ProjectReference Include="..\NorthwindMVC.DAL\NorthwindMVC.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Products\Components\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy $(ProjectDir)..\Northwind.db $(ProjectDir)$(OutDir)" />
   </Target>

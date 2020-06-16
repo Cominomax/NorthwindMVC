@@ -21,7 +21,7 @@ namespace NorthwindMVC.Website.Models
 
         private void CreateRandomSupplierShowcase()
         {
-            var SupplierWithMoreThan4Products = Products.GroupBy(p => p.SupplierId).Where(grouping => grouping.Count() > 4).Select(grouping => grouping.Key).ToArray();
+            var SupplierWithMoreThan4Products = Products.GroupBy(p => p.SupplierId).Where(grouping => grouping.Count() >= 3).Select(grouping => grouping.Key).ToArray();
             var randSupplier = new Random().Next(0, SupplierWithMoreThan4Products.Count()-1);
             var productsBySupplier = Products.Where(p => p.SupplierId == SupplierWithMoreThan4Products[randSupplier]);
             ShowcasedSupplier = productsBySupplier.First().SupplierName;

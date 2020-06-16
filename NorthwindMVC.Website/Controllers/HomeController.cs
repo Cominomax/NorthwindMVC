@@ -28,7 +28,7 @@ namespace NorthwindMVC.Website.Controllers
         public async Task<IActionResult> Index()
         {
             var cat = await _context.Categories.ToListAsync();
-            var prod = await _context.Products.Include(p => p.Supplier).Include(p => p.Category).ToListAsync();
+            var prod = await _context.Products.Include(p => p.Supplier).Include(p => p.Category).Where(p => p.UnitsInStock > 0).ToListAsync();
             var homeViewModel = new HomepageViewModel(cat.Select(c => new CategoryViewModel(c)).ToList<ICanShowAsCard>(), prod.Select(p => new ProductViewModel(p, _env.WebRootPath)).ToList());
             return View(homeViewModel);
         }

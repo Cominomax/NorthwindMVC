@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<Northwind.Entities.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Northwind - Products";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Browse our Products:</h1>
+@if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -24,15 +26,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.UnitsInStock)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitsOnOrder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReorderLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discontinued)
-            </th>
+            @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitsOnOrder)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.ReorderLevel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Discontinued)
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
@@ -43,41 +49,49 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsInStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitsOnOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReorderLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discontinued)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ProductID">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsInStock)
+                </td>
+                @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderLevel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Discontinued)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
+                </td>
+                <td>
+                    @if (ViewContext.HttpContext.User.IsInRole("Administrator"))
+                    {
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
