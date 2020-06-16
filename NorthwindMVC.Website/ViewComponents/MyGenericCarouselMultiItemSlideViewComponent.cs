@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NorthwindMVC.Website.Models;
 using NorthwindMVC.Website.Models.Base;
 using System.Collections.Generic;
 
 namespace NorthwindMVC.Website.ViewComponents
 {
-    public class MyGenericCarouselSlideViewComponent : ViewComponent
+    public class MyGenericCarouselMultiItemSlideViewComponent : ViewComponent
     {
-        public MyGenericCarouselSlideViewComponent()
+        public MyGenericCarouselMultiItemSlideViewComponent()
         {
         }
 

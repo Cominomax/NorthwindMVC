@@ -38,8 +38,6 @@ namespace NorthwindMVC.Website.Models
             }
         }
 
-       
-
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync();

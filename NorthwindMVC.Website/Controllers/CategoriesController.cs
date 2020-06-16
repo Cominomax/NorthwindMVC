@@ -27,7 +27,6 @@ namespace NorthwindMVC.Website.Controllers
         }
 
         // GET: Categories/Details/5
-        [Route("/category/{id:int}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

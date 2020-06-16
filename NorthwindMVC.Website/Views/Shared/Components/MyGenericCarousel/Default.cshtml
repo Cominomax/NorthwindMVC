@@ -1,51 +1,33 @@
-﻿@model IList<NorthwindMVC.Website.Models.Base.ICanShowAsCard>
-@{
-    string currentItem = "";
-    int products_per_slide = 4;
-}
-@functions{
-    public IList<NorthwindMVC.Website.Models.Base.ICanShowAsCard> GetNextChunkToDisplay(int i, int products_per_slide)
-    {
-        return Model.Skip(i).Take(products_per_slide).ToList();
-    }
-}
+﻿@model CarouselViewModel
+
 <div>
     <!--Carousel Wrapper-->
     <div id="my-generic-carousel" class="carousel slide" data-ride="carousel" data-interval="5000" data-keyboard="true">
 
         <!--Indicators-->
         <ol class="carousel-indicators">
-
-            @for (int c = 0; c < Math.Ceiling((decimal)Model.Count / (decimal)products_per_slide); c++)
+            @for (int c = 0; c < Model.NumberOfSlides; c++)
             {
-                if (c == 0)
-                {
-                    currentItem = "active";
-                }
-                else
-                {
-                    currentItem = "";
-                }
-                <li data-target="#my-generic-carousel" data-slide-to="@c" class="blue @currentItem"></li>
+                <li data-target="#my-generic-carousel" data-slide-to="@c" class="@Model.ShouldBeActive(c)"></li>
             }
         </ol>
         <!--/.Indicators-->
         <!--Slides-->
         <div class="carousel-inner row w-100 mx-auto" role="listbox">
 
-            @for (int i = 0; i < @Model.Count; i += products_per_slide)
+            @for (int i = 0; i < @Model.Count; i += Model.ElementsPerSlide)
             {
-                if (i == 0)
+            <div class="carousel-item @Model.ShouldBeActive(i)">
+                @if (Model.IsSingleCardPerSlide)
                 {
-                    currentItem = "active";
+                    @await Component.InvokeAsync("BigCard", @Model[i])
                 }
-                else
+                @if (!Model.IsSingleCardPerSlide)
                 {
-                    currentItem = "";
+                    @await Component.InvokeAsync("MyGenericCarouselMultiItemSlide", @Model.GetNextChunkToDisplay(i))
                 }
-                <div class="carousel-item @currentItem">
-                    @await Component.InvokeAsync("MyGenericCarouselSlide", @GetNextChunkToDisplay(i, products_per_slide))
-                </div>
+
+            </div>
             }
         </div>
         <a class="carousel-control-prev" href="#my-generic-carousel"

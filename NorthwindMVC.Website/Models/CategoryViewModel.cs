@@ -6,13 +6,13 @@ namespace NorthwindMVC.Website.Models
 {
     public class CategoryViewModel : ICanShowAsCard
     {
-        public CategoryViewModel(Category category, string webRootPath)
+        public CategoryViewModel(Category category, string webRootPath = "")
         {
             Id = category.CategoryID;
             Title = category.CategoryName;
             Text = category.Description;
             Image = $"category{Id}.jpeg";
-            if (category.Products != null)
+            if (category.Products != null && !string.IsNullOrEmpty(webRootPath))
             {
                 BriefProducts = new List<ICanShowAsCard>();
                 foreach (var product in category.Products)
@@ -34,6 +34,6 @@ namespace NorthwindMVC.Website.Models
 
         public string Controller => "Categories";
 
-        public string Action => "Detail";
+        public string Action => "Details";
     }
 }

@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model NorthwindMVC.Website.Models.Base.ICanShowAsCard
+﻿@model NorthwindMVC.Website.Models.Base.ICanShowAsCard
 
 <div class="card mb-2">
     <a asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-id="@Model.Id">
@@ -12,3 +9,4 @@
         <p class="card-text">@Model.Text</p>
     </div>
 </div>
+

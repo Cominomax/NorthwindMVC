@@ -1,0 +1,13 @@
+﻿@model NorthwindMVC.Website.Models.Base.ICanShowAsCard
+
+<img class="d-block w-100" style="" src="~/images/@Model.Image" alt="Image of @Model.Title" />
+<div class="carousel-caption d-none d-md-block">
+    <h2>@Model.Title</h2>
+    <h3>@Model.Text</h3>
+    <p>
+        <a class="btn btn-primary"
+           asp-controller="@Model.Controller"
+           asp-action="@Model.Action"
+           asp-route-id="@Model.Id">View</a>
+    </p>
+</div>

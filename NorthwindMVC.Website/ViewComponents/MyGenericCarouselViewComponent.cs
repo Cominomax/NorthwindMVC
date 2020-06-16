@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NorthwindMVC.Website.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NorthwindMVC.Website.Models;
 
 namespace NorthwindMVC.Website.ViewComponents
 {
@@ -13,9 +9,9 @@ namespace NorthwindMVC.Website.ViewComponents
         {
         }
 
-        public IViewComponentResult Invoke(IList<ICanShowAsCard> listToDisplay)
+        public IViewComponentResult Invoke(CarouselViewModel toDisplay)
         {
-            return View(listToDisplay);
+            return View(toDisplay);
         }
     }
 }

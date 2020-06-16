@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NorthwindMVC.DAL;
 using NorthwindMVC.Website.Models;
+using NorthwindMVC.Website.Models.Base;
 
 namespace NorthwindMVC.Website.Controllers
 {
@@ -15,19 +17,22 @@ namespace NorthwindMVC.Website.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly NorthwindDAL _context;
-
-        public HomeController(ILogger<HomeController> logger, NorthwindDAL context)
+        private readonly IWebHostEnvironment _env;
+        public HomeController(ILogger<HomeController> logger, NorthwindDAL context, IWebHostEnvironment env)
         {
             _logger = logger;
             _context = context;
+            _env = env;
         }
 
         public async Task<IActionResult> Index()
         {
+            var cat = await _context.Categories.ToListAsync();
+            var prod = await _context.Products.ToListAsync();
             var homeViewModel = new HomepageViewModel
             {
-                Categories = await _context.Categories.ToListAsync(),
-                Products = await _context.Products.ToListAsync()
+                Categories = cat.Select(c => new CategoryViewModel(c)).ToList<ICanShowAsCard>(),
+                Products = prod.Select(p => new BriefProductViewModel(p, _env.WebRootPath)).ToList()
             };
             return View(homeViewModel);
         }
