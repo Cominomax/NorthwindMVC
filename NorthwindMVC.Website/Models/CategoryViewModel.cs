@@ -17,7 +17,7 @@ namespace NorthwindMVC.Website.Models
                 BriefProducts = new List<ICanShowAsCard>();
                 foreach (var product in category.Products)
                 {
-                    BriefProducts.Add(new BriefProductViewModel(product, webRootPath));
+                    BriefProducts.Add(new ProductViewModel(product, webRootPath));
                 }
             }
         }

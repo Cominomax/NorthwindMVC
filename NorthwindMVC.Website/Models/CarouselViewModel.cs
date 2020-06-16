@@ -7,13 +7,14 @@ namespace NorthwindMVC.Website.Models
 {
     public class CarouselViewModel
     {
-
-        public CarouselViewModel(IList<ICanShowAsCard> elements, int elementsPerSlide)
+        public CarouselViewModel(string carouselName, IList<ICanShowAsCard> elements, int elementsPerSlide)
         {
+            CarouselName = carouselName;
             Elements = elements;
             ElementsPerSlide = elementsPerSlide;
         }
 
+        public string CarouselName { get; set; }
         public bool IsSingleCardPerSlide => ElementsPerSlide == 1;
         public int ElementsPerSlide { get; set; }
         public IList<ICanShowAsCard> Elements { get; set; }

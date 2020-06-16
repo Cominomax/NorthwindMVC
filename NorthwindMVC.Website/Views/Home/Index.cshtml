@@ -8,25 +8,29 @@
 </div>
 
 <div>
-    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel(@Model.Categories, 1))
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("Categories", @Model.Categories, 1))
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Products</h2>
-        <div style="column-count: 3;">
-            <ul>
-                @foreach (var item in @Model.Products)
-                {
-                    <li>
-                        <a asp-controller="Home"
-                           asp-action="ProductDetail"
-                           asp-route-id="@item.Id">
-                            @item.Title: @item.Text
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
+<h2>@Model.ShowcasedCategory Products:</h2>
+<hr class="rounded">
+<div>
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("ProductsByCategory", @Model.ProductsByCategory, 4))
+</div>
+
+<h2>Products from @Model.ShowcasedSupplier:</h2>
+<hr class="rounded">
+<div>
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("ProductsBySupplier", @Model.ProductsBySupplier, 4))
+</div>
+
+<h2>Last deals:</h2>
+<hr class="rounded">
+<div>
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("ProductsWithLittleLeft", @Model.ProductsWithLittleLeft, 4))
+</div>
+
+<h2>Products Under 10€:</h2>
+<hr class="rounded">
+<div>
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("ProductsLessThanPrice", @Model.ProductsLessThanPrice, 4))
 </div>

@@ -8,7 +8,7 @@
 <h2>@Html.DisplayFor(model => model.Text)</h2>
 
 <div>
-    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel(@Model.BriefProducts, 4))
+    @await Component.InvokeAsync("MyGenericCarousel", new CarouselViewModel("BriefProducts", @Model.BriefProducts, 4))
 </div>
 
 <div>
