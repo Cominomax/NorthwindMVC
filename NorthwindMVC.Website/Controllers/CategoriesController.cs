@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Entities;
 using NorthwindMVC.DAL;
+using NorthwindMVC.Website.Models;
 
 namespace NorthwindMVC.Website.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly NorthwindDAL _context;
-
-        public CategoriesController(NorthwindDAL context)
+        private readonly IWebHostEnvironment _env;
+        public CategoriesController(NorthwindDAL context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         // GET: Categories
@@ -34,15 +34,15 @@ namespace NorthwindMVC.Website.Controllers
             {
                 return NotFound();
             }
-
-            var category = await _context.Categories.Include(category => category.Products)
+            var category = await _context.Categories
+                .Include(category => category.Products)
                 .FirstOrDefaultAsync(m => m.CategoryID == id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(new CategoryViewModel(category, _env.WebRootPath));
         }
 
         // GET: Categories/Create

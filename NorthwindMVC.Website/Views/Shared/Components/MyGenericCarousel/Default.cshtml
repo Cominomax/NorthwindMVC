@@ -1,0 +1,64 @@
+﻿@model IList<NorthwindMVC.Website.Models.Base.ICanShowAsCard>
+@{
+    string currentItem = "";
+    int products_per_slide = 4;
+}
+@functions{
+    public IList<NorthwindMVC.Website.Models.Base.ICanShowAsCard> GetNextChunkToDisplay(int i, int products_per_slide)
+    {
+        return Model.Skip(i).Take(products_per_slide).ToList();
+    }
+}
+<div>
+    <!--Carousel Wrapper-->
+    <div id="my-generic-carousel" class="carousel slide" data-ride="carousel" data-interval="5000" data-keyboard="true">
+
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+
+            @for (int c = 0; c < Math.Ceiling((decimal)Model.Count / (decimal)products_per_slide); c++)
+            {
+                if (c == 0)
+                {
+                    currentItem = "active";
+                }
+                else
+                {
+                    currentItem = "";
+                }
+                <li data-target="#my-generic-carousel" data-slide-to="@c" class="blue @currentItem"></li>
+            }
+        </ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+        <div class="carousel-inner row w-100 mx-auto" role="listbox">
+
+            @for (int i = 0; i < @Model.Count; i += products_per_slide)
+            {
+                if (i == 0)
+                {
+                    currentItem = "active";
+                }
+                else
+                {
+                    currentItem = "";
+                }
+                <div class="carousel-item @currentItem">
+                    @await Component.InvokeAsync("MyGenericCarouselSlide", @GetNextChunkToDisplay(i, products_per_slide))
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#my-generic-carousel"
+           role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"
+                  aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#my-generic-carousel"
+           role="button" data-slide="next">
+            <span class="carousel-control-next-icon"
+                  aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>

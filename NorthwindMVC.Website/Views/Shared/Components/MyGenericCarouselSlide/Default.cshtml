@@ -1,0 +1,10 @@
+﻿@model IList<NorthwindMVC.Website.Models.Base.ICanShowAsCard>
+
+<div class="row">
+    @for (int j = 0; j < @Model.Count; j++)
+    {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            @await Component.InvokeAsync("BriefElementCard", Model[j])
+        </div>
+    }
+</div>
