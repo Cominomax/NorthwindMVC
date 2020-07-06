@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Northwind.Entities;
+using NorthwindDAL.Entities;
 using NorthwindMVC.DAL;
 
 namespace NorthwindMVC.Website.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly NorthwindDAL _context;
+        private readonly NorthwindDB _context;
 
-        public ProductsController(NorthwindDAL context)
+        public ProductsController(NorthwindDB context)
         {
             _context = context;
         }

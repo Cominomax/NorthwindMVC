@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Northwind.Entities;
+using NorthwindDAL.Entities;
 using NorthwindMVC.DAL;
 using NorthwindMVC.Website.Models;
 
@@ -11,9 +11,9 @@ namespace NorthwindMVC.Website.Controllers
 {
     public class SuppliersController : Controller
     {
-        private readonly NorthwindDAL _context;
+        private readonly NorthwindDB _context;
 
-        public SuppliersController(NorthwindDAL context)
+        public SuppliersController(NorthwindDB context)
         {
             _context = context;
         }

@@ -1,5 +1,4 @@
-﻿using Northwind.Entities;
-using NorthwindMVC.Website.Models.Base;
+﻿using NorthwindMVC.Website.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

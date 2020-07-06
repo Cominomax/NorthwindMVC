@@ -16,9 +16,9 @@ namespace NorthwindMVC.Website.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly NorthwindDAL _context;
+        private readonly NorthwindDB _context;
         private readonly IWebHostEnvironment _env;
-        public HomeController(ILogger<HomeController> logger, NorthwindDAL context, IWebHostEnvironment env)
+        public HomeController(ILogger<HomeController> logger, NorthwindDB context, IWebHostEnvironment env)
         {
             _logger = logger;
             _context = context;

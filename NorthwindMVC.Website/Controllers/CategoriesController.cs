@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Northwind.Entities;
+using NorthwindDAL.Entities;
 using NorthwindMVC.DAL;
 using NorthwindMVC.Website.Models;
 
@@ -12,9 +12,9 @@ namespace NorthwindMVC.Website.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly NorthwindDAL _context;
+        private readonly NorthwindDB _context;
         private readonly IWebHostEnvironment _env;
-        public CategoriesController(NorthwindDAL context, IWebHostEnvironment env)
+        public CategoriesController(NorthwindDB context, IWebHostEnvironment env)
         {
             _context = context;
             _env = env;

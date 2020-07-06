@@ -1,4 +1,4 @@
-﻿using Northwind.Entities;
+﻿using NorthwindDAL.Entities;
 using NorthwindMVC.Website.Models.Base;
 using System.Collections.Generic;
 

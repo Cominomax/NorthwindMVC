@@ -49,7 +49,7 @@ namespace NorthwindMVC.Website
             });
 
             string databasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Northwind.db");
-            services.AddDbContext<NorthwindDAL>(options => options.UseSqlite($"Data Source={databasePath}"));
+            services.AddDbContext<NorthwindDB>(options => options.UseSqlite($"Data Source={databasePath}"));
 
             services.AddControllersWithViews();
            services.AddRazorPages();
